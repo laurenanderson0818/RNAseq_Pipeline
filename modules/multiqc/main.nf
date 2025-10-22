@@ -3,17 +3,17 @@
 process MULTIQC {
     label 'process_low'
     container 'ghcr.io/bf528/multiqc:latest'
-    publishDir outdir
+    publishDir params.outdir, mode: 'copy'
 
     input:
     path('*')
 
     output:
-    multiqc_report.html
+    path('multiqc_report.html')
 
     shell:
     """
-    multiqc -f
+    multiqc -f .
     """
 
     stub:

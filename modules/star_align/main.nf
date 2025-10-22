@@ -15,7 +15,7 @@ process ALIGN {
 
     shell:
     """
-    STAR --runThreadN $task.cpus --genomeDir $index --readFilesIn $reads --readFilesCommand zcat --outFileNamePrefix ${sample_id}. --outSAMtype BAM unsorted 2> ${sample_id}.Log.final.out
+    STAR --runThreadN $task.cpus --genomeDir $index --readFilesIn ${reads.join(' ')} --readFilesCommand zcat --outFileNamePrefix ${sample_id}. --outSAMtype BAM Unsorted 2> ${sample_id}.Log.final.out
     """
 
     stub:
