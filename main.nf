@@ -6,6 +6,7 @@ include {PARSE_GTF} from './modules/parse_gtf'
 include {ALIGN} from './modules/star_align'
 include {MULTIQC} from './modules/multiqc'
 include {VERSE} from './modules/verse'
+include {PANDAS} from './modules/pandas'
 
 
 workflow {
@@ -22,5 +23,7 @@ workflow {
 
     MULTIQC(multiqc_ch)
     VERSE(ALIGN.out.bam, params.gtf)
+    VERSE.out.map{ name, file -> file }.collect().set { counts_ch }
+    PANDAS(counts_ch, file('bin/merge_counts.py'))
 
 }

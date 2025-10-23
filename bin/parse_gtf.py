@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 
-# You can refer to the help manual by `python parse_gtf.py -h`
-
-# argparse is a library that allows you to make user-friendly command line interfaces
 import argparse
 
 # here we are initializing the argparse object that we will modify
 parser = argparse.ArgumentParser()
 
 # we are asking argparse to require a -i or --input flag on the command line when this
-# script is invoked. It will store it in the "filenames" attribute of the object. Here
+# script is invochmod +x bin/.pyked. It will store it in the "filenames" attribute of the object. Here
 # we are only asking to provide this script one file: the GTF file we are parsing
 parser.add_argument("-i", "--input", help='The input file specified will be the GTF file',dest="input", required=True)
 parser.add_argument("-o", "--output", help='The output file name and path',dest="output", required=True)
@@ -50,7 +47,7 @@ with open(args.output, 'wt') as w:
     for k, v in id_2_name.items():
         w.write('{}\t{}\n'.format(k, v))
 
-'''
+
 # Solution using CSV and split
 
 import csv
@@ -76,4 +73,3 @@ with open(args.input, 'rt') as f:
 with open(args.output, 'wt') as w:
     for geneid, genename in zip(ids, names):
         w.write('{}\t{}\n'.format(geneid, genename))
-'''

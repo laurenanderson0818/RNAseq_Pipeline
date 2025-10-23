@@ -1,24 +1,20 @@
 #!/usr/bin/env nextflow
 
 process VERSE {
-    label 'process_high'
+    label 'process_medium'
     container 'ghcr.io/bf528/verse:latest'
+    publishDir params.outdir, mode: 'copy'
 
     input:
-    tuple val(sample_id), path(bam_file)
-    path gtf
+    tuple val(name), path(bam)
+    path(gtf)
 
     output:
-    path "${sample_id}.exon.txt"
+    tuple val(name), path("*.exon.txt"), emit: counts
 
-    shell:
+    script:
     """
-    verse -a $bam_file -g $gtf -S -o ${sample_id}.exon.txt
-    """
-
-    stub:
-    """
-    touch "${sample_id}.exon.txt"
+    verse -S -a $gtf -o ${name}.exon.txt $bam
     """
 
 }
