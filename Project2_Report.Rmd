@@ -1,0 +1,132 @@
+```{r}
+library(DESeq2)
+library(tidyverse)
+library('fgsea')
+library('ggrepel')
+```
+
+```{r}
+coldata <- tibble(samples = c('control_rep2','exp_rep2','exp_rep1','control_rep1','exp_rep3','control_rep3'), condition = c('control', 'exp', 'exp', 'control', 'exp', 'control'))
+
+cts <- as.matrix(read.csv('results/merged_counts.csv', row.names = 'gene'))
+```
+
+```{r}
+keep <- rowSums(cts) > 0
+cts_filter <- cts[keep, ]
+
+before <- nrow(cts)
+after <- nrow(cts_filter)
+removed <- before - after
+
+summary <- data.frame(
+  Status = c("Before Filtering", "After Filtering", "Number of Genes Removed"),
+  Genes = c(before, after, removed)
+)
+
+print(summary)
+```
+
+```{r}
+dds <- DESeqDataSetFromMatrix(countData = cts_filter, colData = coldata, design = ~ condition)
+```
+
+```{r}
+dds <- DESeq(dds)
+res <- results(dds)
+resOrdered <- res[order(res$pvalue),]
+resOrdered
+```
+
+```{r}
+results <- resOrdered %>% as_tibble(rownames = 'gene')
+map <- read_delim('results/id2name.txt', col_names = c('id', 'symbol'))
+
+results <- results %>% left_join(map, by = join_by(gene == id))
+results
+```
+
+```{r}
+vsd <- vst(dds, blind = TRUE)
+plotPCA(vsd, intgroup = c("condition"))
+```
+
+```{r}
+library("RColorBrewer")
+library('pheatmap')
+
+sampleDists <- dist(t(assay(vsd)))
+sampleDistsMatrix <- as.matrix(sampleDists)
+
+rownames(sampleDistsMatrix) <- paste(vsd$condition, vsd$type, sep = "-")
+colnames(sampleDistsMatrix) <- NULL
+colors <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+
+pheatmap(sampleDistsMatrix, clustering_distance_rows = sampleDists, clustering_distance_cols = sampleDists, col = colors)
+```
+
+```{r}
+rnks <- results %>% arrange(desc(log2FoldChange)) %>% drop_na(log2FoldChange) %>% distinct(symbol, .keep_all = TRUE) %>% pull(log2FoldChange, symbol)
+c2 <- fgsea::gmtPathways('c2.cp.v2025.1.Hs.symbols.gmt')
+
+fgsea_results <- fgsea(c2, rnks, minSize = 15, maxSize = 500)
+fgsea_results <- fgsea_results %>% as_tibble()
+```
+
+```{r}
+top_pos <- fgsea_results %>% slice_max(NES, n = 10) %>% pull(pathway)
+top_neg <- fgsea_results %>% slice_min(NES, n = 10) %>% pull(pathway)
+
+subset <- fgsea_results %>% filter(pathway %in% c(top_pos, top_neg)) %>% mutate(pathway = factor(pathway)) %>% mutate(plot_name = str_replace_all(pathway, '_', ' '))
+
+subset %>% 
+  mutate(plot_name = forcats::fct_reorder(factor(plot_name), NES)) %>%
+  ggplot() +
+  geom_bar(aes(x = plot_name, y = NES, fill = NES > 0), stat = 'identity', show.legend = FALSE) +
+  scale_fill_manual(values = c('TRUE' = 'red', 'FALSE' = 'blue')) + 
+  theme_minimal(base_size = 8) +
+  ggtitle('fgsea Results for MSigDB Gene Sets') + 
+  ylab('Normalized Enrichment Score (NES)') +
+  xlab('') + 
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 80)) + 
+  coord_flip()
+```
+
+```{r}
+selected <- c('ELMO1', 'PAK3', 'INSM1', 'NEUROG3', 'GAB2', 'NOS3', 'PAX6', 'NEUROD1', 'ONECUT1', 'KRAS', 'LAMB2', 'SPP', 'DUSP6', 'SPRY2', 'PLAT', 'AKT3', 'SLC2A2', 'BAX', 'COL2A1', 'APOE', 'LAMA4', 'KDR', 'PGF', 'PTPRU', 'COL9A2', 'NTRK2')
+
+results <- results %>% mutate(label = if_else(symbol %in% selected, TRUE, FALSE))
+```
+
+```{r}
+labeled_results <- results %>% mutate(volc_plot_status = case_when(
+  log2FoldChange > 0 & padj < 0.15 ~ 'UP',
+  log2FoldChange < 0 & padj < 0.15 ~ 'DOWN',
+  TRUE ~ 'NS'))
+  #label = padj < 0.05 & abs(log2FoldChange) > 1)
+
+labeled_results %>%
+  ggplot(mapping = aes(x = log2FoldChange, y = -log10(padj), color = volc_plot_status)) +
+  geom_point() +
+  geom_hline(yintercept = -log10(0.1), linetype = "dashed") + 
+  geom_text_repel(data = labeled_results %>% filter(label == TRUE), aes(label = symbol), max.overlaps = 100) +
+  theme_minimal() +
+  ggtitle('Volcano Plot of DESeq2 Differential Expression Results')
+```
+
+```{r}
+labeled_results %>% filter(symbol %in% selected) %>% relocate(symbol)
+```
+
+Paragraph about the quality of the sequencing reads from the MultiQC report. Plus any metrics that might be concerning.
+
+multiqc, version 1.25
+FastQC v0.12.1
+verse, Version 0.1.5
+star, 2.7.11b
+pandas, 2.2.3
+biopython, 1.84
+
+methods:
+
+
