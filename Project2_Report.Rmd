@@ -1,3 +1,18 @@
+**Introduction**
+  
+  Type 1 diabetes (T1D) is an autoimmune disease that results in the destruction of insulin producing pancreatic B-cells, with tyrosine kinase 2 (TYK2) being a gene that plays a critical role in this autoimmunity. With a loss of function of the TYK2 gene in B-cells, it was found that the progression of T1D was halted and losing TYK2 can protect against type 1 diabetes. This study was performed to observe the role of the TYK2 gene in B-cell development while confirming that inhibiting this gene is successful at stopping type 1 diabetes progression. The authors used deep RNA sequencing to observe the expression patterns of TYK2 and other candidate genes. Also, RNA sequencing was used to compare the expression of genes in both the wild type (WT) and TYK2 knockout (KO) groups to observe any differences with the absence of TYK2.
+  
+  
+**Methods**
+
+  We obtained paired-end sequencing read data for three control groups (WT) at different developmental stages and three experimental groups (KO) at different developmental stages from online resources. The read data was split across two files (R1 and R2). We also obtained a primary assembly and annotation of the human genome from online resources.  We assessed the quality of the raw read data with defualt paramters of FastQC v0.12.1 [Andrews, 2010], which allowed us to check sequence quality and GC content. Then, all of the FastQC quality control results were combined and summarized using MultiQC v1.25 [Ewels et al., 2016], overwriting previous reports (-f). Next, we indexed and processed the reference genome and the annotation file using STAR v2.7.11b [Dobin et al., 2013], where we used default parameters.
+  We then aligned the sequencing reads to the indexed reference genome using STAR [Dobin et al., 2013], where we decompressed the input reads (--readFilesCommand zcat) and produced unsorted BAMs (--outSAMtype BAM Unsorted). We also redirected the standard error to the log file with STAR (2> ${sample_id}.Log.final.out). We then parsed through the gene annotation and mapped the Gene IDs to the names of the genes using Biopython v1.84 [Cock et al., 2009] and a python script. Then, we counted genes in each sample group to quantify gene-level expression from the BAM alignments using VERSE v0.1.5 [Zhu et al., 2016], specifying a single-end counting mode for exons (-S). Finally, we merged all of the gene counts from each sample group (6 total) into a single matrix using the default parameters in pandas v2.2.3 [The pandas development team, 2025].
+  
+
+**Quality Control Evaluation**
+  
+  The number of reads for all samples ranged from 85 million reads to 118 million reads. The alignment rate for all groups, experimental and control, were in the range of 95-98%. There were overrepresented sequences present, however they were found in such low numbers that they likely did not impact the results. There was high duplication found in the FastQC analysis, but this could likely be attributed to the depth of the reads. In terms of differential expression analysis, 100 million reads is very deep, which may have caused issues with duplication. However, due to a high number of reads, a high alignment rate, and a low percentage of overrepresented sequence, we can determine that this was a high quality experiment that is suitable for downstream analysis.
+
 ```{r}
 library(DESeq2)
 library(tidyverse)
@@ -10,6 +25,10 @@ coldata <- tibble(samples = c('control_rep2','exp_rep2','exp_rep1','control_rep1
 
 cts <- as.matrix(read.csv('results/merged_counts.csv', row.names = 'gene'))
 ```
+
+**Filtering the Counts Matrix**
+
+  In order to filter the counts matrix to make the data more manageable, genes were removed that did not contribute to the understanding of diffrential gene expression. More specifically, genes that showed a count of 0 for each experimental and control group were removed. If any of the groups contained at least one count of a gene, then that gene was kept in the counts matrix. The original counts matrix had 63,241 genes present. After filtering genes that had 0 counts, there were 39,893 genes remaining meaning that 23,348 genes were removed as seen in the table below.
 
 ```{r}
 keep <- rowSums(cts) > 0
@@ -47,22 +66,32 @@ results
 ```
 
 ```{r}
-vsd <- vst(dds, blind = TRUE)
-plotPCA(vsd, intgroup = c("condition"))
+top10 <- results %>%
+  arrange(padj) %>%
+  select(gene, symbol, baseMean, log2FoldChange, lfcSE, stat, pvalue, padj) %>%
+  slice_head(n = 10)
+
+top10
 ```
 
 ```{r}
-library("RColorBrewer")
-library('pheatmap')
+padj_threshold <- 0.05
 
-sampleDists <- dist(t(assay(vsd)))
-sampleDistsMatrix <- as.matrix(sampleDists)
+sig_genes <- results %>%
+  filter(padj < padj_threshold)
 
-rownames(sampleDistsMatrix) <- paste(vsd$condition, vsd$type, sep = "-")
-colnames(sampleDistsMatrix) <- NULL
-colors <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+num_sig <- nrow(sig_genes)
+num_sig
+```
 
-pheatmap(sampleDistsMatrix, clustering_distance_rows = sampleDists, clustering_distance_cols = sampleDists, col = colors)
+```{r}
+library(enrichR)
+
+dbs <- c("GO_Biological_Process_2023")
+sig_gene_symbols <- sig_genes$symbol %>% na.omit() %>% unique()
+enrichr_results <- enrichr(sig_gene_symbols, dbs)
+
+head(enrichr_results[["GO_Biological_Process_2023"]])
 ```
 
 ```{r}
@@ -92,6 +121,36 @@ subset %>%
   coord_flip()
 ```
 
+**Differential Expression Analysis**
+
+  With a padj threshold of 0.05, there were 1208 significant genes. With ENRICHR, the top significant genes contained Gene Ontology terms like 'Positive Regulation Of Blood Coagulation', 'Nervous System Development', and 'Kidney Development'. This indicates that the TYK2 knockout condition alters genes involved in blood coagulation and tissue development which may have impacts on pathways linked to T1D. Overall, this indicates that the loss of TYK2 may influence two processes that are associated with T1D, further showcasing the link between TYK2 knockout and T1D being halted.
+  The fgsea analysis shows that knocking out TYK2 alters key signaling and immune pathways related to T1D like IGF1MTOR, NFAT, and ERK. These pathways are associated with immune activation and cell growth, suggesting that these processes are upregulated with TYK2 present. On the other hand, TYK2 knockout samples show enrichment of pathways related to translation and transcriptional regulation. Overall, the data suggests that the loss of TYK2 in the experimental samples dampens immune activation and inflammatory signaling by IGF1MTOR, NFAT, and ERK, which may help protect B-cells from an autoimmune attack with T1D.
+  One similarity between the fgsea analysis and the ENRICHR analysis is that they both indicate that TYK2 knockouts in the experimental samples impact immune-related and regulatory pathways linked to T1D. This further supports that TYK2 knockout may be helpful when looking to halt T1D progression. On the other hand, ENRICHR highlights more broad biological processes while fgsea focuses on more specific signaling pathways. Perhaps using DAVID over ENRICHR would lead to more similar results in terms of specificity between the two analyses. Overall, both analyses indicate that TYK2 loss downregulates immune activation, which is relevant to the progression of T1D.
+
+```{r}
+vsd <- vst(dds, blind = TRUE)
+plotPCA(vsd, intgroup = c("condition"))
+```
+
+```{r}
+library("RColorBrewer")
+library('pheatmap')
+
+sampleDists <- dist(t(assay(vsd)))
+sampleDistsMatrix <- as.matrix(sampleDists)
+
+rownames(sampleDistsMatrix) <- paste(vsd$condition, vsd$type, sep = "-")
+colnames(sampleDistsMatrix) <- NULL
+colors <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+
+pheatmap(sampleDistsMatrix, clustering_distance_rows = sampleDists, clustering_distance_cols = sampleDists, col = colors)
+```
+
+**RNAseq Quality Control**
+
+  PCA is an exploratory data analysis technique that is used as a diagnostic to see if the samples separate and group by condition. In this experiment, we can see that the experimental samples and the control samples seem to group together, indicating that the knockout gene may be responsible for the change in gene expression that we see and is driving this variance. There is also one outlier in the experimental group, but since this sample is still separated from the control group, it is not currently an issue for this analysis. Overall, since our samples are in two separate groups, we would expect to see a clear difference between these groups in the differential expression results.
+  The distance matrix indicates how similar and different two different experimental samples are to one another. This plot is also used as a diagnostic where the control samples are expected to be more similar to one another while the experimental samples are expected to be more similar to each other. If there is a biological difference between the two groups, then we would expect for them to be very different from one another in the distance matrix. This plot is indicative that this expected relationship is true. The experimental samples are more closely related and grouped together separately from the control samples, which are also grouped together and shown to be more similar. Overall, both of these plots are indicating that the results we observe in our differential expression are due to the knockout condition.
+
 ```{r}
 selected <- c('ELMO1', 'PAK3', 'INSM1', 'NEUROG3', 'GAB2', 'NOS3', 'PAX6', 'NEUROD1', 'ONECUT1', 'KRAS', 'LAMB2', 'SPP', 'DUSP6', 'SPRY2', 'PLAT', 'AKT3', 'SLC2A2', 'BAX', 'COL2A1', 'APOE', 'LAMA4', 'KDR', 'PGF', 'PTPRU', 'COL9A2', 'NTRK2')
 
@@ -115,18 +174,66 @@ labeled_results %>%
 ```
 
 ```{r}
-labeled_results %>% filter(symbol %in% selected) %>% relocate(symbol)
+library(dplyr)
+library(ggplot2)
+library(fgsea)
+library(stringr)
+library(tibble)
+
+plot_df <- fgsea_results %>%
+  as_tibble() %>%
+  arrange(padj) %>%
+  mutate(Direction = ifelse(NES > 0, "Upregulated", "Downregulated")) %>%
+  group_by(Direction) %>%
+  slice_head(n = 3) %>%
+  ungroup() %>%
+  mutate(
+    pathway = gsub("REACTOME_|KEGG_|WP_", "", pathway),
+    pathway = gsub("_", " ", pathway),
+    pathway_short = str_wrap(pathway, width = 40),
+    pathway_short = factor(pathway_short, levels = rev(unique(pathway_short)))
+  )
+
+ggplot(plot_df, aes(x = abs(NES), y = pathway_short, fill = padj)) +
+  geom_col() +
+  facet_wrap(~Direction, scales = "free_y", ncol = 1) +
+  scale_fill_gradientn(
+    colors = c("red", "magenta", "blue"),
+    values = scales::rescale(c(0.01, 0.02, 0.04)),
+    name = expression("Adjusted " * italic(p) * " value")
+  ) +
+  labs(
+    x = "Normalized Enrichment Score (|NES|)",
+    y = NULL,
+    title = "Reactome enrichment"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    axis.text.y = element_text(size = 8),
+    axis.title.x = element_text(size = 8),
+    plot.title = element_text(face = "bold"),
+    legend.position = "left",
+    strip.text = element_text(size = 12, face = "bold")
+  )
 ```
 
-Paragraph about the quality of the sequencing reads from the MultiQC report. Plus any metrics that might be concerning.
+**Replicate Figure 3C and 3F**
 
-multiqc, version 1.25
-FastQC v0.12.1
-verse, Version 0.1.5
-star, 2.7.11b
-pandas, 2.2.3
-biopython, 1.84
-
-methods:
+  With a significance threshold of 0.01, the paper found a total of 731 significant genes, 319 of which were upregulated and 412 of which were downregulated. In comparison, the above analysis found a total of 698 significant genes, with the number of those being upregulated and downregulated unknown. Given the similar total number of significant genes, it is possible to assume that both of the analyses were similar and provided similar results.
+  The enrichment results from the provided paper showcased that there was downregulation of gene sets crucial to proper endocrine development. For example, there was downregulation of gene sets related to "Regulation of B-cell Development" and "Gene Expression in B-cells" in the TYK2 knockout samples. Also, the samples from the paper displayed lower expression of gene sets critical to antigen processing and presentation. This is important because it indicates that TYK2 loss is protective for the immune system in cells with T1D. One similarity between the paper's analysis and the above analysis is that they both indicate that TYK2 loss downregulates immune activation and dampen inflammatory responses related to T1D progression.
+  Some differences and discrepancies between the two analyses may appear when comparing the two experiments. In comparison to the above analysis, the paper completes a more thorough analysis where they filter based on multiple time points in cell development, while this analysis is focusing only on S5 time points. The paper may have used a different version of the human reference genome than the above analysis, leading to discrepancies in the data. Aligning reads to a larger genome does not always happen the exact same way, and perhaps the paper had some varying alignments that we did not observe. Also, all of the tools used in the pipeline could have been different versions, leading to varying results. Overall, while there are many discrepancies and differences that may have occurred, we were generally able to replicate this experiment with similar resulting pathways that the experiment in the paper found.
 
 
+**Literature Cited**
+
+  Andrews S. (2010). FastQC: a quality control tool for high throughput sequence data. Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc
+
+  Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PMID: 27312411; PMCID: PMC5039924.
+
+  Dobin A, Davis CA, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P, Chaisson M, Gingeras TR. STAR: ultrafast universal RNA-seq aligner. Bioinformatics. 2013 Jan 1;29(1):15-21. doi: 10.1093/bioinformatics/bts635. Epub 2012 Oct 25. PMID: 23104886; PMCID: PMC3530905.
+
+  Peter J. A. Cock, Tiago Antao, Jeffrey T. Chang, Brad A. Chapman, Cymon J. Cox, Andrew Dalke, Iddo Friedberg, Thomas Hamelryck, Frank Kauff, Bartek Wilczyński, Michiel J. L. de Hoon: Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics 25 (11), 1422–1423 (2009). https://doi.org/10.1093/bioinformatics/btp163
+
+  Zhu, Qin & Fisher, Stephen & Shallcross, Jamie & Kim, Junhyong. (2016). VERSE: a versatile and efficient RNA-Seq read counting tool. 10.1101/053306. 
+
+  The pandas development team. (2025). pandas-dev/pandas: Pandas (v2.2.3). Zenodo. https://doi.org/10.5281/zenodo.17229934
