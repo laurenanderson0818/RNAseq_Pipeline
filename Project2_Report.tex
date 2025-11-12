@@ -1,0 +1,897 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+\textbf{Introduction}
+
+Type 1 diabetes (T1D) is an autoimmune disease that results in the
+destruction of insulin producing pancreatic B-cells, with tyrosine
+kinase 2 (TYK2) being a gene that plays a critical role in this
+autoimmunity. With a loss of function of the TYK2 gene in B-cells, it
+was found that the progression of T1D was halted and losing TYK2 can
+protect against type 1 diabetes. This study was performed to observe the
+role of the TYK2 gene in B-cell development while confirming that
+inhibiting this gene is successful at stopping type 1 diabetes
+progression. The authors used deep RNA sequencing to observe the
+expression patterns of TYK2 and other candidate genes. Also, RNA
+sequencing was used to compare the expression of genes in both the wild
+type (WT) and TYK2 knockout (KO) groups to observe any differences with
+the absence of TYK2.
+
+\textbf{Methods}
+
+We obtained paired-end sequencing read data for three control groups
+(WT) at different developmental stages and three experimental groups
+(KO) at different developmental stages from online resources. The read
+data was split across two files (R1 and R2). We also obtained a primary
+assembly and annotation of the human genome from online resources. We
+assessed the quality of the raw read data with defualt paramters of
+FastQC v0.12.1 {[}Andrews, 2010{]}, which allowed us to check sequence
+quality and GC content. Then, all of the FastQC quality control results
+were combined and summarized using MultiQC v1.25 {[}Ewels et al.,
+2016{]}, overwriting previous reports (-f). Next, we indexed and
+processed the reference genome and the annotation file using STAR
+v2.7.11b {[}Dobin et al., 2013{]}, where we used default parameters. We
+then aligned the sequencing reads to the indexed reference genome using
+STAR {[}Dobin et al., 2013{]}, where we decompressed the input reads
+(--readFilesCommand zcat) and produced unsorted BAMs (--outSAMtype BAM
+Unsorted). We also redirected the standard error to the log file with
+STAR (2\textgreater{} \$\{sample\_id\}.Log.final.out). We then parsed
+through the gene annotation and mapped the Gene IDs to the names of the
+genes using Biopython v1.84 {[}Cock et al., 2009{]} and a python script.
+Then, we counted genes in each sample group to quantify gene-level
+expression from the BAM alignments using VERSE v0.1.5 {[}Zhu et al.,
+2016{]}, specifying a single-end counting mode for exons (-S). Finally,
+we merged all of the gene counts from each sample group (6 total) into a
+single matrix using the default parameters in pandas v2.2.3 {[}The
+pandas development team, 2025{]}.
+
+\textbf{Quality Control Evaluation}
+
+The number of reads for all samples ranged from 85 million reads to 118
+million reads. The alignment rate for all groups, experimental and
+control, were in the range of 95-98\%. There were overrepresented
+sequences present, however they were found in such low numbers that they
+likely did not impact the results. There was high duplication found in
+the FastQC analysis, but this could likely be attributed to the depth of
+the reads. In terms of differential expression analysis, 100 million
+reads is very deep, which may have caused issues with duplication.
+However, due to a high number of reads, a high alignment rate, and a low
+percentage of overrepresented sequence, we can determine that this was a
+high quality experiment that is suitable for downstream analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(DESeq2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: S4Vectors
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: stats4
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: BiocGenerics
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'BiocGenerics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     IQR, mad, sd, var, xtabs
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+##     Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
+##     table, tapply, union, unique, unsplit, which.max, which.min
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'S4Vectors'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     findMatches
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     expand.grid, I, unname
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: IRanges
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: GenomicRanges
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: GenomeInfoDb
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: SummarizedExperiment
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: MatrixGenerics
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: matrixStats
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'MatrixGenerics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:matrixStats':
+## 
+##     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+##     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+##     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+##     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+##     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+##     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+##     colWeightedMeans, colWeightedMedians, colWeightedSds,
+##     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+##     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+##     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+##     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+##     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+##     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+##     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+##     rowWeightedSds, rowWeightedVars
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Biobase
+\end{verbatim}
+
+\begin{verbatim}
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     'browseVignettes()'. To cite Bioconductor, see
+##     'citation("Biobase")', and for packages 'citation("pkgname")'.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Biobase'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:MatrixGenerics':
+## 
+##     rowMedians
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:matrixStats':
+## 
+##     anyMissing, rowMedians
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   3.5.1     v tibble    3.2.1
+## v lubridate 1.9.3     v tidyr     1.3.1
+## v purrr     1.0.2
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x lubridate::%within%() masks IRanges::%within%()
+## x dplyr::collapse()     masks IRanges::collapse()
+## x dplyr::combine()      masks Biobase::combine(), BiocGenerics::combine()
+## x dplyr::count()        masks matrixStats::count()
+## x dplyr::desc()         masks IRanges::desc()
+## x tidyr::expand()       masks S4Vectors::expand()
+## x dplyr::filter()       masks stats::filter()
+## x dplyr::first()        masks S4Vectors::first()
+## x dplyr::lag()          masks stats::lag()
+## x ggplot2::Position()   masks BiocGenerics::Position(), base::Position()
+## x purrr::reduce()       masks GenomicRanges::reduce(), IRanges::reduce()
+## x dplyr::rename()       masks S4Vectors::rename()
+## x lubridate::second()   masks S4Vectors::second()
+## x lubridate::second<-() masks S4Vectors::second<-()
+## x dplyr::slice()        masks IRanges::slice()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{\textquotesingle{}fgsea\textquotesingle{}}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{\textquotesingle{}ggrepel\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coldata }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{samples =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}control\_rep2\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}exp\_rep2\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}exp\_rep1\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}control\_rep1\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}exp\_rep3\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}control\_rep3\textquotesingle{}}\NormalTok{), }\AttributeTok{condition =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}control\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}exp\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}exp\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}control\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}exp\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}control\textquotesingle{}}\NormalTok{))}
+
+\NormalTok{cts }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}results/merged\_counts.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \StringTok{\textquotesingle{}gene\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Filtering the Counts Matrix}
+
+In order to filter the counts matrix to make the data more manageable,
+genes were removed that did not contribute to the understanding of
+diffrential gene expression. More specifically, genes that showed a
+count of 0 for each experimental and control group were removed. If any
+of the groups contained at least one count of a gene, then that gene was
+kept in the counts matrix. The original counts matrix had 63,241 genes
+present. After filtering genes that had 0 counts, there were 39,893
+genes remaining meaning that 23,348 genes were removed as seen in the
+table below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{keep }\OtherTok{\textless{}{-}} \FunctionTok{rowSums}\NormalTok{(cts) }\SpecialCharTok{\textgreater{}} \DecValTok{0}
+\NormalTok{cts\_filter }\OtherTok{\textless{}{-}}\NormalTok{ cts[keep, ]}
+
+\NormalTok{before }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(cts)}
+\NormalTok{after }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(cts\_filter)}
+\NormalTok{removed }\OtherTok{\textless{}{-}}\NormalTok{ before }\SpecialCharTok{{-}}\NormalTok{ after}
+
+\NormalTok{summary }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Status =} \FunctionTok{c}\NormalTok{(}\StringTok{"Before Filtering"}\NormalTok{, }\StringTok{"After Filtering"}\NormalTok{, }\StringTok{"Number of Genes Removed"}\NormalTok{),}
+  \AttributeTok{Genes =} \FunctionTok{c}\NormalTok{(before, after, removed)}
+\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    Status Genes
+## 1        Before Filtering 63241
+## 2         After Filtering 39893
+## 3 Number of Genes Removed 23348
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dds }\OtherTok{\textless{}{-}} \FunctionTok{DESeqDataSetFromMatrix}\NormalTok{(}\AttributeTok{countData =}\NormalTok{ cts\_filter, }\AttributeTok{colData =}\NormalTok{ coldata, }\AttributeTok{design =} \SpecialCharTok{\textasciitilde{}}\NormalTok{ condition)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in DESeqDataSet(se, design = design, ignoreRank): some variables in
+## design formula are characters, converting to factors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dds }\OtherTok{\textless{}{-}} \FunctionTok{DESeq}\NormalTok{(dds)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## estimating size factors
+\end{verbatim}
+
+\begin{verbatim}
+## estimating dispersions
+\end{verbatim}
+
+\begin{verbatim}
+## gene-wise dispersion estimates
+\end{verbatim}
+
+\begin{verbatim}
+## mean-dispersion relationship
+\end{verbatim}
+
+\begin{verbatim}
+## final dispersion estimates
+\end{verbatim}
+
+\begin{verbatim}
+## fitting model and testing
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{results}\NormalTok{(dds)}
+\NormalTok{resOrdered }\OtherTok{\textless{}{-}}\NormalTok{ res[}\FunctionTok{order}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{pvalue),]}
+\NormalTok{resOrdered}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## log2 fold change (MLE): condition exp vs control 
+## Wald test p-value: condition exp vs control 
+## DataFrame with 39893 rows and 6 columns
+##                       baseMean log2FoldChange     lfcSE         stat
+##                      <numeric>      <numeric> <numeric>    <numeric>
+## ENSG00000129824.16   10669.168       -8.77467  0.143343     -61.2146
+## ENSG00000289575.1      730.127        3.69701  0.126024      29.3357
+## ENSG00000108439.11     604.080       -4.15783  0.142588     -29.1597
+## ENSG00000253846.3      495.791        4.47982  0.199409      22.4654
+## ENSG00000250616.4      524.454       -2.42114  0.117621     -20.5842
+## ...                        ...            ...       ...          ...
+## ENSG00000255883.1     11.16254   -1.12773e-04 0.5850727 -1.92751e-04
+## ENSG00000163938.17 11425.03348    1.18939e-05 0.0749098  1.58776e-04
+## ENSG00000159685.11  1850.89429   -2.24664e-05 0.1489736 -1.50808e-04
+## ENSG00000229835.2      5.88299   -6.25972e-05 0.8415699 -7.43814e-05
+## ENSG00000232872.2     52.69026   -3.55702e-07 0.2985495 -1.19143e-06
+##                          pvalue         padj
+##                       <numeric>    <numeric>
+## ENSG00000129824.16  0.00000e+00  0.00000e+00
+## ENSG00000289575.1  3.64166e-189 3.74308e-185
+## ENSG00000108439.11 6.28618e-187 4.30750e-183
+## ENSG00000253846.3  9.03968e-112 4.64572e-108
+## ENSG00000250616.4   3.80178e-94  1.56306e-90
+## ...                         ...          ...
+## ENSG00000255883.1      0.999846     0.999928
+## ENSG00000163938.17     0.999873     0.999928
+## ENSG00000159685.11     0.999880     0.999928
+## ENSG00000229835.2      0.999941           NA
+## ENSG00000232872.2      0.999999     0.999999
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\OtherTok{\textless{}{-}}\NormalTok{ resOrdered }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as\_tibble}\NormalTok{(}\AttributeTok{rownames =} \StringTok{\textquotesingle{}gene\textquotesingle{}}\NormalTok{)}
+\NormalTok{map }\OtherTok{\textless{}{-}} \FunctionTok{read\_delim}\NormalTok{(}\StringTok{\textquotesingle{}results/id2name.txt\textquotesingle{}}\NormalTok{, }\AttributeTok{col\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}id\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}symbol\textquotesingle{}}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 63241 Columns: 2
+## -- Column specification --------------------------------------------------------
+## Delimiter: "\t"
+## chr (2): id, symbol
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{results }\OtherTok{\textless{}{-}}\NormalTok{ results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(map, }\AttributeTok{by =} \FunctionTok{join\_by}\NormalTok{(gene }\SpecialCharTok{==}\NormalTok{ id))}
+\NormalTok{results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 39,893 x 8
+##    gene           baseMean log2FoldChange lfcSE  stat    pvalue      padj symbol
+##    <chr>             <dbl>          <dbl> <dbl> <dbl>     <dbl>     <dbl> <chr> 
+##  1 ENSG000001298~   10669.          -8.77 0.143 -61.2 0         0         RPS4Y1
+##  2 ENSG000002895~     730.           3.70 0.126  29.3 3.64e-189 3.74e-185 ENSG0~
+##  3 ENSG000001084~     604.          -4.16 0.143 -29.2 6.29e-187 4.31e-183 PNPO  
+##  4 ENSG000002538~     496.           4.48 0.199  22.5 9.04e-112 4.65e-108 PCDHG~
+##  5 ENSG000002506~     524.          -2.42 0.118 -20.6 3.80e- 94 1.56e- 90 YPEL3~
+##  6 ENSG000002511~    1300.          -1.72 0.100 -17.1 7.22e- 66 2.47e- 62 LINC0~
+##  7 ENSG000001732~     633.           4.68 0.274  17.1 1.53e- 65 4.49e- 62 SLC2A~
+##  8 ENSG000002863~     906.          -1.72 0.116 -14.8 2.73e- 49 7.01e- 46 ENSG0~
+##  9 ENSG000002894~     383.          -2.13 0.145 -14.7 8.98e- 49 2.05e- 45 ENSG0~
+## 10 ENSG000002829~     121.           3.76 0.267  14.1 3.89e- 45 8.00e- 42 ENSG0~
+## # i 39,883 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top10 }\OtherTok{\textless{}{-}}\NormalTok{ results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(padj) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(gene, symbol, baseMean, log2FoldChange, lfcSE, stat, pvalue, padj) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+
+\NormalTok{top10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 8
+##    gene           symbol baseMean log2FoldChange lfcSE  stat    pvalue      padj
+##    <chr>          <chr>     <dbl>          <dbl> <dbl> <dbl>     <dbl>     <dbl>
+##  1 ENSG000001298~ RPS4Y1   10669.          -8.77 0.143 -61.2 0         0        
+##  2 ENSG000002895~ ENSG0~     730.           3.70 0.126  29.3 3.64e-189 3.74e-185
+##  3 ENSG000001084~ PNPO       604.          -4.16 0.143 -29.2 6.29e-187 4.31e-183
+##  4 ENSG000002538~ PCDHG~     496.           4.48 0.199  22.5 9.04e-112 4.65e-108
+##  5 ENSG000002506~ YPEL3~     524.          -2.42 0.118 -20.6 3.80e- 94 1.56e- 90
+##  6 ENSG000002511~ LINC0~    1300.          -1.72 0.100 -17.1 7.22e- 66 2.47e- 62
+##  7 ENSG000001732~ SLC2A~     633.           4.68 0.274  17.1 1.53e- 65 4.49e- 62
+##  8 ENSG000002863~ ENSG0~     906.          -1.72 0.116 -14.8 2.73e- 49 7.01e- 46
+##  9 ENSG000002894~ ENSG0~     383.          -2.13 0.145 -14.7 8.98e- 49 2.05e- 45
+## 10 ENSG000002829~ ENSG0~     121.           3.76 0.267  14.1 3.89e- 45 8.00e- 42
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{padj\_threshold }\OtherTok{\textless{}{-}} \FloatTok{0.05}
+
+\NormalTok{sig\_genes }\OtherTok{\textless{}{-}}\NormalTok{ results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(padj }\SpecialCharTok{\textless{}}\NormalTok{ padj\_threshold)}
+
+\NormalTok{num\_sig }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(sig\_genes)}
+\NormalTok{num\_sig}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1208
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(enrichR)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Welcome to enrichR
+## Checking connection ...
+\end{verbatim}
+
+\begin{verbatim}
+## Enrichr ... Connection is Live!
+## FlyEnrichr ... Connection is Live!
+## WormEnrichr ... Connection is Live!
+## YeastEnrichr ... Connection is Live!
+## FishEnrichr ... Connection is Live!
+## OxEnrichr ... Connection is Live!
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dbs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"GO\_Biological\_Process\_2023"}\NormalTok{)}
+\NormalTok{sig\_gene\_symbols }\OtherTok{\textless{}{-}}\NormalTok{ sig\_genes}\SpecialCharTok{$}\NormalTok{symbol }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{na.omit}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{()}
+\NormalTok{enrichr\_results }\OtherTok{\textless{}{-}} \FunctionTok{enrichr}\NormalTok{(sig\_gene\_symbols, dbs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Uploading data to Enrichr... Done.
+##   Querying GO_Biological_Process_2023... Done.
+## Parsing results... Done.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(enrichr\_results[[}\StringTok{"GO\_Biological\_Process\_2023"}\NormalTok{]])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                                    Term Overlap      P.value
+## 1 Positive Regulation Of Blood Coagulation (GO:0030194)   11/21 7.504999e-09
+## 2      Negative Regulation Of Fibrinolysis (GO:0051918)    8/11 2.425751e-08
+## 3               Nervous System Development (GO:0007399)  57/433 2.435619e-08
+## 4                       Kidney Development (GO:0001822)   19/71 2.566609e-08
+## 5             Regulation Of Cell Migration (GO:0030334)  56/434 6.461344e-08
+## 6 Negative Regulation Of Blood Coagulation (GO:0030195)   12/30 6.983406e-08
+##   Adjusted.P.value Old.P.value Old.Adjusted.P.value Odds.Ratio Combined.Score
+## 1     2.282999e-05           0                    0  17.259983      322.89453
+## 2     2.282999e-05           0                    0  41.753333      732.12548
+## 3     2.282999e-05           0                    0   2.425532       42.52074
+## 4     2.282999e-05           0                    0   5.758879      100.65424
+## 5     3.590971e-05           0                    0   2.368056       39.20279
+## 6     3.590971e-05           0                    0  10.464883      172.43138
+##                                                                                                                                                                                                                                                                                                                                                                       Genes
+## 1                                                                                                                                                                                                                                                                                                          THBD;VTN;PLAU;SERPINE1;SERPINF2;CNTN1;PLAT;EMILIN1;HPSE;F2;THBS1
+## 2                                                                                                                                                                                                                                                                                                                             THBD;VTN;PLAU;SERPINE1;SERPINF2;PLAT;F2;THBS1
+## 3 CHRM2;ROBO2;TENM1;PLXND1;MYT1L;VLDLR;LDB2;CELSR1;SHH;NRCAM;CHST8;SRRM4;TMOD2;PAX6;OLFM1;ZEB2;ALDH1A2;TYRO3;DCX;TAGLN3;RAPGEF5;DSCAML1;NUMBL;PLPPR1;C3ORF70;DLX5;NRXN1;CRMP1;EFNA5;NEUROD1;UGT8;ACVR1C;FLRT3;ERBB4;SPOCK2;PDGFC;SLITRK6;SPOCK1;NPTX1;GPM6B;EGR2;JAG1;ZBTB16;PHOX2B;NFASC;FGF14;DLG4;FGF19;MAB21L2;PCDHB16;NEURL1;PMP22;PCDHB5;SERPINI1;MELTF;CBLN1;NEUROG3
+## 4                                                                                                                                                                                                                                                               ROBO2;TFAP2A;TFAP2B;TGFB2;ZBTB16;GREB1L;TCF21;LRP4;GDF6;SULF1;SULF2;PYGO1;BMP4;SHH;SALL1;WT1;ITGA8;CTSH;REN
+## 5                              RET;PTPRT;PTPRU;IFITM1;CSF1;PLXND1;CITED2;SERPINE1;TNC;LDB2;CLDN1;AMOT;DOCK10;SHH;DACH1;FGF9;PLAU;DPYSL3;KDR;CYP1B1;CTSH;EMILIN1;PHACTR1;PLXNC1;LIMCH1;HGF;ADRA2A;CLDN4;MMP14;SFRP1;SFRP2;CEACAM6;CDH13;SGK1;EPHA2;SEMA3C;PDGFA;THY1;AIF1;THBS1;ERBB4;PDGFD;PDGFC;ZNF703;LMNA;CTNNA2;CGA;JAG1;SULF1;PODN;IGSF10;DAB2;FGF19;TRIP6;CNTN1;SPRY2
+## 6                                                                                                                                                                                                                                                                                                       FGB;THBD;VTN;C1QTNF1;PLAU;NOS3;SERPINE1;SERPINF2;PDGFA;PLAT;APOE;F2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rnks }\OtherTok{\textless{}{-}}\NormalTok{ results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(log2FoldChange)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{drop\_na}\NormalTok{(log2FoldChange) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{(symbol, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{(log2FoldChange, symbol)}
+\NormalTok{c2 }\OtherTok{\textless{}{-}}\NormalTok{ fgsea}\SpecialCharTok{::}\FunctionTok{gmtPathways}\NormalTok{(}\StringTok{\textquotesingle{}c2.cp.v2025.1.Hs.symbols.gmt\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{fgsea\_results }\OtherTok{\textless{}{-}} \FunctionTok{fgsea}\NormalTok{(c2, rnks, }\AttributeTok{minSize =} \DecValTok{15}\NormalTok{, }\AttributeTok{maxSize =} \DecValTok{500}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (25.48% of the list).
+## The order of those tied genes will be arbitrary, which may produce unexpected results.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fgsea\_results }\OtherTok{\textless{}{-}}\NormalTok{ fgsea\_results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as\_tibble}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top\_pos }\OtherTok{\textless{}{-}}\NormalTok{ fgsea\_results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_max}\NormalTok{(NES, }\AttributeTok{n =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{(pathway)}
+\NormalTok{top\_neg }\OtherTok{\textless{}{-}}\NormalTok{ fgsea\_results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_min}\NormalTok{(NES, }\AttributeTok{n =} \DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{(pathway)}
+
+\NormalTok{subset }\OtherTok{\textless{}{-}}\NormalTok{ fgsea\_results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(pathway }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(top\_pos, top\_neg)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{pathway =} \FunctionTok{factor}\NormalTok{(pathway)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{plot\_name =} \FunctionTok{str\_replace\_all}\NormalTok{(pathway, }\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{} \textquotesingle{}}\NormalTok{))}
+
+\NormalTok{subset }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{plot\_name =}\NormalTok{ forcats}\SpecialCharTok{::}\FunctionTok{fct\_reorder}\NormalTok{(}\FunctionTok{factor}\NormalTok{(plot\_name), NES)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ plot\_name, }\AttributeTok{y =}\NormalTok{ NES, }\AttributeTok{fill =}\NormalTok{ NES }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{), }\AttributeTok{stat =} \StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{, }\AttributeTok{show.legend =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}TRUE\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}FALSE\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)) }\SpecialCharTok{+} 
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{8}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{\textquotesingle{}fgsea Results for MSigDB Gene Sets\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{\textquotesingle{}Normalized Enrichment Score (NES)\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels =} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{str\_wrap}\NormalTok{(x, }\AttributeTok{width =} \DecValTok{80}\NormalTok{)) }\SpecialCharTok{+} 
+  \FunctionTok{coord\_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Project2_Report_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\textbf{Differential Expression Analysis}
+
+With a padj threshold of 0.05, there were 1208 significant genes. With
+ENRICHR, the top significant genes contained Gene Ontology terms like
+`Positive Regulation Of Blood Coagulation', `Nervous System
+Development', and `Kidney Development'. This indicates that the TYK2
+knockout condition alters genes involved in blood coagulation and tissue
+development which may have impacts on pathways linked to T1D. Overall,
+this indicates that the loss of TYK2 may influence two processes that
+are associated with T1D, further showcasing the link between TYK2
+knockout and T1D being halted. The fgsea analysis shows that knocking
+out TYK2 alters key signaling and immune pathways related to T1D like
+IGF1MTOR, NFAT, and ERK. These pathways are associated with immune
+activation and cell growth, suggesting that these processes are
+upregulated with TYK2 present. On the other hand, TYK2 knockout samples
+show enrichment of pathways related to translation and transcriptional
+regulation. Overall, the data suggests that the loss of TYK2 in the
+experimental samples dampens immune activation and inflammatory
+signaling by IGF1MTOR, NFAT, and ERK, which may help protect B-cells
+from an autoimmune attack with T1D. One similarity between the fgsea
+analysis and the ENRICHR analysis is that they both indicate that TYK2
+knockouts in the experimental samples impact immune-related and
+regulatory pathways linked to T1D. This further supports that TYK2
+knockout may be helpful when looking to halt T1D progression. On the
+other hand, ENRICHR highlights more broad biological processes while
+fgsea focuses on more specific signaling pathways. Perhaps using DAVID
+over ENRICHR would lead to more similar results in terms of specificity
+between the two analyses. Overall, both analyses indicate that TYK2 loss
+downregulates immune activation, which is relevant to the progression of
+T1D.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vsd }\OtherTok{\textless{}{-}} \FunctionTok{vst}\NormalTok{(dds, }\AttributeTok{blind =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{plotPCA}\NormalTok{(vsd, }\AttributeTok{intgroup =} \FunctionTok{c}\NormalTok{(}\StringTok{"condition"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## using ntop=500 top features by variance
+\end{verbatim}
+
+\includegraphics{Project2_Report_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"RColorBrewer"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{\textquotesingle{}pheatmap\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{sampleDists }\OtherTok{\textless{}{-}} \FunctionTok{dist}\NormalTok{(}\FunctionTok{t}\NormalTok{(}\FunctionTok{assay}\NormalTok{(vsd)))}
+\NormalTok{sampleDistsMatrix }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(sampleDists)}
+
+\FunctionTok{rownames}\NormalTok{(sampleDistsMatrix) }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(vsd}\SpecialCharTok{$}\NormalTok{condition, vsd}\SpecialCharTok{$}\NormalTok{type, }\AttributeTok{sep =} \StringTok{"{-}"}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(sampleDistsMatrix) }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{colors }\OtherTok{\textless{}{-}} \FunctionTok{colorRampPalette}\NormalTok{(}\FunctionTok{rev}\NormalTok{(}\FunctionTok{brewer.pal}\NormalTok{(}\DecValTok{9}\NormalTok{, }\StringTok{"Blues"}\NormalTok{)))(}\DecValTok{255}\NormalTok{)}
+
+\FunctionTok{pheatmap}\NormalTok{(sampleDistsMatrix, }\AttributeTok{clustering\_distance\_rows =}\NormalTok{ sampleDists, }\AttributeTok{clustering\_distance\_cols =}\NormalTok{ sampleDists, }\AttributeTok{col =}\NormalTok{ colors)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Project2_Report_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\textbf{RNAseq Quality Control}
+
+PCA is an exploratory data analysis technique that is used as a
+diagnostic to see if the samples separate and group by condition. In
+this experiment, we can see that the experimental samples and the
+control samples seem to group together, indicating that the knockout
+gene may be responsible for the change in gene expression that we see
+and is driving this variance. There is also one outlier in the
+experimental group, but since this sample is still separated from the
+control group, it is not currently an issue for this analysis. Overall,
+since our samples are in two separate groups, we would expect to see a
+clear difference between these groups in the differential expression
+results. The distance matrix indicates how similar and different two
+different experimental samples are to one another. This plot is also
+used as a diagnostic where the control samples are expected to be more
+similar to one another while the experimental samples are expected to be
+more similar to each other. If there is a biological difference between
+the two groups, then we would expect for them to be very different from
+one another in the distance matrix. This plot is indicative that this
+expected relationship is true. The experimental samples are more closely
+related and grouped together separately from the control samples, which
+are also grouped together and shown to be more similar. Overall, both of
+these plots are indicating that the results we observe in our
+differential expression are due to the knockout condition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{selected }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}ELMO1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PAK3\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}INSM1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}NEUROG3\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}GAB2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}NOS3\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PAX6\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}NEUROD1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}ONECUT1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}KRAS\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}LAMB2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}SPP\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}DUSP6\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}SPRY2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PLAT\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}AKT3\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}SLC2A2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}BAX\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}COL2A1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}APOE\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}LAMA4\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}KDR\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PGF\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}PTPRU\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}COL9A2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}NTRK2\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{results }\OtherTok{\textless{}{-}}\NormalTok{ results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{label =} \FunctionTok{if\_else}\NormalTok{(symbol }\SpecialCharTok{\%in\%}\NormalTok{ selected, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{labeled\_results }\OtherTok{\textless{}{-}}\NormalTok{ results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{volc\_plot\_status =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{  log2FoldChange }\SpecialCharTok{\textgreater{}} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ padj }\SpecialCharTok{\textless{}} \FloatTok{0.15} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}UP\textquotesingle{}}\NormalTok{,}
+\NormalTok{  log2FoldChange }\SpecialCharTok{\textless{}} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ padj }\SpecialCharTok{\textless{}} \FloatTok{0.15} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}DOWN\textquotesingle{}}\NormalTok{,}
+  \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}NS\textquotesingle{}}\NormalTok{))}
+  \CommentTok{\#label = padj \textless{} 0.05 \& abs(log2FoldChange) \textgreater{} 1)}
+
+\NormalTok{labeled\_results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ log2FoldChange, }\AttributeTok{y =} \SpecialCharTok{{-}}\FunctionTok{log10}\NormalTok{(padj), }\AttributeTok{color =}\NormalTok{ volc\_plot\_status)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \SpecialCharTok{{-}}\FunctionTok{log10}\NormalTok{(}\FloatTok{0.1}\NormalTok{), }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_text\_repel}\NormalTok{(}\AttributeTok{data =}\NormalTok{ labeled\_results }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(label }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{), }\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ symbol), }\AttributeTok{max.overlaps =} \DecValTok{100}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{\textquotesingle{}Volcano Plot of DESeq2 Differential Expression Results\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 19336 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+\end{verbatim}
+
+\includegraphics{Project2_Report_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(fgsea)}
+\FunctionTok{library}\NormalTok{(stringr)}
+\FunctionTok{library}\NormalTok{(tibble)}
+
+\NormalTok{plot\_df }\OtherTok{\textless{}{-}}\NormalTok{ fgsea\_results }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(padj) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Direction =} \FunctionTok{ifelse}\NormalTok{(NES }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{, }\StringTok{"Upregulated"}\NormalTok{, }\StringTok{"Downregulated"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Direction) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{pathway =} \FunctionTok{gsub}\NormalTok{(}\StringTok{"REACTOME\_|KEGG\_|WP\_"}\NormalTok{, }\StringTok{""}\NormalTok{, pathway),}
+    \AttributeTok{pathway =} \FunctionTok{gsub}\NormalTok{(}\StringTok{"\_"}\NormalTok{, }\StringTok{" "}\NormalTok{, pathway),}
+    \AttributeTok{pathway\_short =} \FunctionTok{str\_wrap}\NormalTok{(pathway, }\AttributeTok{width =} \DecValTok{40}\NormalTok{),}
+    \AttributeTok{pathway\_short =} \FunctionTok{factor}\NormalTok{(pathway\_short, }\AttributeTok{levels =} \FunctionTok{rev}\NormalTok{(}\FunctionTok{unique}\NormalTok{(pathway\_short)))}
+\NormalTok{  )}
+
+\FunctionTok{ggplot}\NormalTok{(plot\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{abs}\NormalTok{(NES), }\AttributeTok{y =}\NormalTok{ pathway\_short, }\AttributeTok{fill =}\NormalTok{ padj)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Direction, }\AttributeTok{scales =} \StringTok{"free\_y"}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}
+    \AttributeTok{colors =} \FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"magenta"}\NormalTok{, }\StringTok{"blue"}\NormalTok{),}
+    \AttributeTok{values =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{rescale}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.02}\NormalTok{, }\FloatTok{0.04}\NormalTok{)),}
+    \AttributeTok{name =} \FunctionTok{expression}\NormalTok{(}\StringTok{"Adjusted "} \SpecialCharTok{*} \FunctionTok{italic}\NormalTok{(p) }\SpecialCharTok{*} \StringTok{" value"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Normalized Enrichment Score (|NES|)"}\NormalTok{,}
+    \AttributeTok{y =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{title =} \StringTok{"Reactome enrichment"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{13}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.text.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{),}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+    \AttributeTok{legend.position =} \StringTok{"left"}\NormalTok{,}
+    \AttributeTok{strip.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Project2_Report_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\textbf{Replicate Figure 3C and 3F}
+
+With a significance threshold of 0.01, the paper found a total of 731
+significant genes, 319 of which were upregulated and 412 of which were
+downregulated. In comparison, the above analysis found a total of 698
+significant genes, with the number of those being upregulated and
+downregulated unknown. Given the similar total number of significant
+genes, it is possible to assume that both of the analyses were similar
+and provided similar results. The enrichment results from the provided
+paper showcased that there was downregulation of gene sets crucial to
+proper endocrine development. For example, there was downregulation of
+gene sets related to ``Regulation of B-cell Development'' and ``Gene
+Expression in B-cells'' in the TYK2 knockout samples. Also, the samples
+from the paper displayed lower expression of gene sets critical to
+antigen processing and presentation. This is important because it
+indicates that TYK2 loss is protective for the immune system in cells
+with T1D. One similarity between the paper's analysis and the above
+analysis is that they both indicate that TYK2 loss downregulates immune
+activation and dampen inflammatory responses related to T1D progression.
+Some differences and discrepancies between the two analyses may appear
+when comparing the two experiments. In comparison to the above analysis,
+the paper completes a more thorough analysis where they filter based on
+multiple time points in cell development, while this analysis is
+focusing only on S5 time points. The paper may have used a different
+version of the human reference genome than the above analysis, leading
+to discrepancies in the data. Aligning reads to a larger genome does not
+always happen the exact same way, and perhaps the paper had some varying
+alignments that we did not observe. Also, all of the tools used in the
+pipeline could have been different versions, leading to varying results.
+Overall, while there are many discrepancies and differences that may
+have occurred, we were generally able to replicate this experiment with
+similar resulting pathways that the experiment in the paper found.
+
+\textbf{Literature Cited}
+
+Andrews S. (2010). FastQC: a quality control tool for high throughput
+sequence data. Available online at:
+\url{http://www.bioinformatics.babraham.ac.uk/projects/fastqc}
+
+Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis
+results for multiple tools and samples in a single report.
+Bioinformatics. 2016 Oct 1;32(19):3047-8. doi:
+10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PMID: 27312411; PMCID:
+PMC5039924.
+
+Dobin A, Davis CA, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P,
+Chaisson M, Gingeras TR. STAR: ultrafast universal RNA-seq aligner.
+Bioinformatics. 2013 Jan 1;29(1):15-21. doi:
+10.1093/bioinformatics/bts635. Epub 2012 Oct 25. PMID: 23104886; PMCID:
+PMC3530905.
+
+Peter J. A. Cock, Tiago Antao, Jeffrey T. Chang, Brad A. Chapman, Cymon
+J. Cox, Andrew Dalke, Iddo Friedberg, Thomas Hamelryck, Frank Kauff,
+Bartek Wilczyński, Michiel J. L. de Hoon: Biopython: freely available
+Python tools for computational molecular biology and bioinformatics.
+Bioinformatics 25 (11), 1422--1423 (2009).
+\url{https://doi.org/10.1093/bioinformatics/btp163}
+
+Zhu, Qin \& Fisher, Stephen \& Shallcross, Jamie \& Kim, Junhyong.
+(2016). VERSE: a versatile and efficient RNA-Seq read counting tool.
+10.1101/053306.
+
+The pandas development team. (2025). pandas-dev/pandas: Pandas (v2.2.3).
+Zenodo. \url{https://doi.org/10.5281/zenodo.17229934}
+
+\end{document}
