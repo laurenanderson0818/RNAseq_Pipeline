@@ -3,11 +3,6 @@ output:
   html_document: default
   pdf_document: default
 ---
-**Introduction**
-  
-  Type 1 diabetes (T1D) is an autoimmune disease that results in the destruction of insulin producing pancreatic B-cells, with tyrosine kinase 2 (TYK2) being a gene that plays a critical role in this autoimmunity. With a loss of function of the TYK2 gene in B-cells, it was found that the progression of T1D was halted and losing TYK2 can protect against type 1 diabetes. This study was performed to observe the role of the TYK2 gene in B-cell development while confirming that inhibiting this gene is successful at stopping type 1 diabetes progression. The authors used deep RNA sequencing to observe the expression patterns of TYK2 and other candidate genes. Also, RNA sequencing was used to compare the expression of genes in both the wild type (WT) and TYK2 knockout (KO) groups to observe any differences with the absence of TYK2.
-  
-  
 **Methods**
 
   We obtained paired-end sequencing read data for three control groups (WT) at different developmental stages and three experimental groups (KO) at different developmental stages from online resources. The read data was split across two files (R1 and R2). We also obtained a primary assembly and annotation of the human genome from online resources.  We assessed the quality of the raw read data with defualt paramters of FastQC v0.12.1 [Andrews, 2010], which allowed us to check sequence quality and GC content. Then, all of the FastQC quality control results were combined and summarized using MultiQC v1.25 [Ewels et al., 2016], overwriting previous reports (-f). Next, we indexed and processed the reference genome and the annotation file using STAR v2.7.11b [Dobin et al., 2013], where we used default parameters.
