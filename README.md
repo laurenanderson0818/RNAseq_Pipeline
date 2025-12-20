@@ -9,4 +9,4 @@ Type 1 diabetes (T1D) is an autoimmune disease that results in the destruction o
 #### Deliverables
 1. main.nf (Nextflow workflow)
 2. README.md (Introduction)
-3. RNAseq_Report.ipynb (Methods, Discussion, and Figure Reproduction)
+3. RNAseq_Report.Rmd (Methods, Discussion, and Figure Reproduction)
